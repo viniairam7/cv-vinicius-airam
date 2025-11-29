@@ -1,146 +1,565 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-
+<!doctype html>
+<html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Currículo - Vinicius Airam Duque Estrada Teixeira</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dia com Deus — Planner</title>
+
+  <!-- Fonte limpa e moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
   <style>
-    body {
-      font-family: 'Georgia', serif;
-      background-color: #f9f5ef;
-      color: #3a2f2f;
-      margin: 40px;
-      line-height: 1.6;
+    /* MOBILE FIRST - Minimalista inspirado no Gemini */
+    :root{
+      --bg: #070708;
+      --card: #121214;
+      --muted: #9a9a9a;
+      --text: #ffffff;
+      --accent: #3B82F6;
+      --pill-radius: 14px;
+      --gap: 18px;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
 
-    header {
-      text-align: center;
-      border-bottom: 3px solid #b48a60;
-      padding-bottom: 15px;
-      margin-bottom: 25px;
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#060606 60%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:24px 18px;
+      box-sizing:border-box;
+      display:flex;
+      flex-direction:column;
+      gap:var(--gap);
     }
 
-    header img {
-      width: 120px;
+    /* Header */
+    .greet{
+      margin-top:4px;
+    }
+    .hello{
+      font-size:14px;
+      color:var(--muted);
+      margin:0 0 6px 0;
+    }
+    h1{
+      margin:0;
+      font-size:34px;
+      line-height:1.02;
+      font-weight:600;
+      letter-spacing:-0.6px;
     }
 
-    h1 {
-      font-size: 28px;
-      color: #2c1d0e;
-      margin-top: 10px;
+    /* Input area */
+    .input-card{
+      background:rgba(255,255,255,0.02);
+      border-radius:18px;
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+    textarea{
+      width:100%;
+      min-height:110px;
+      resize:none;
+      background:transparent;
+      border:none;
+      outline:none;
+      color:var(--text);
+      font-size:16px;
+      line-height:1.4;
+      padding:6px 0;
+    }
+    textarea::placeholder{color:var(--muted);}
+
+    .btn{
+      appearance:none;
+      -webkit-appearance:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:12px 18px;
+      border-radius:16px;
+      background:var(--card);
+      color:var(--text);
+      border:1px solid rgba(255,255,255,0.04);
+      font-weight:600;
+      cursor:pointer;
+      font-size:15px;
+    }
+    .btn.primary{
+      background:linear-gradient(180deg,var(--accent),#2563eb);
+      color:white;
+      border: none;
+      box-shadow: 0 6px 18px rgba(59,130,246,0.18);
     }
 
-    h2 {
-      color: #b48a60;
-      margin-top: 30px;
-      font-size: 22px;
-      border-bottom: 2px solid #b48a60;
-      display: inline-block;
-      padding-bottom: 5px;
+    /* Sections */
+    .section-title{
+      margin:8px 0 6px 0;
+      font-size:18px;
+      font-weight:600;
+    }
+    .card{
+      background:rgba(255,255,255,0.02);
+      border-radius:16px;
+      padding:14px;
+      border:1px solid rgba(255,255,255,0.03);
+      color:var(--text);
+      font-size:15px;
+    }
+    .muted{
+      color:var(--muted);
+      font-size:14px;
     }
 
-    .conteudo {
-      margin-top: 10px;
-      font-size: 17px;
+    /* pills for small items */
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius:14px;
+      background:rgba(255,255,255,0.01);
+      border:1px solid rgba(255,255,255,0.03);
+      margin-right:8px;
+      margin-bottom:8px;
+      font-weight:500;
     }
 
-    a {
-      color: #704d2b;
-      text-decoration: none;
+    /* result lists */
+    .list{display:flex;flex-direction:column;gap:10px;margin-top:10px;}
+    .list .row{display:flex;gap:12px;align-items:flex-start;}
+    .icon{
+      width:36px;height:36px;border-radius:10px;display:inline-grid;place-items:center;background:rgba(255,255,255,0.02);font-size:18px;
     }
 
-    a:hover {
-      text-decoration: underline;
+    footer{
+      margin-top:auto;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
     }
+    .save-muted{font-size:13px;color:var(--muted);}
 
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 14px;
-      color: #7a6654;
+    /* Responsive adjustments for larger screens */
+    @media(min-width:720px){
+      body{
+        padding:34px 48px;
+        max-width:820px;
+        margin:0 auto;
+      }
+      h1{font-size:40px;}
+      textarea{min-height:140px;}
     }
   </style>
 </head>
-
 <body>
-  <header>
-    <img src="cristao.png" alt="Logo 100% Cristão">
-    <h1>Vinicius Airam Duque Estrada Teixeira</h1>
-    <p>📞 (11) 98228-3731 | ✉️ <a href="mailto:viniairam2@gmail.com">viniairam2@gmail.com</a></p>
-    <p>
-      🌐 <a href="https://github.com/viniairam7" target="_blank">github.com/viniairam7</a> |
-      💼 <a href="https://www.linkedin.com/in/viniairam/" target="_blank">linkedin.com/in/viniairam</a> |
-      📸 <a href="https://www.instagram.com/viniairam7/" target="_blank">instagram.com/viniairam7</a>
-    </p>
+
+  <header class="greet" aria-labelledby="welcome">
+    <p class="hello" id="welcome">Olá, <span id="userNameDisplay">Vinicius</span></p>
+    <h1>O que temos para hoje?</h1>
   </header>
 
-  <section>
-    <h2>Objetivo</h2>
-    <p class="conteudo">
-      Acredito que a marca <strong>100% Cristão</strong> tem espaço para a tecnologia.
-      Desejo contribuir e colaborar nessa área, unindo inovação com propósito.
-      Mais do que trabalhar, quero <strong>servir</strong> uma livraria que amo e que leva a Palavra de Deus adiante.
-      Estou aberto a <strong>oportunidades de estágio</strong> que me permitam crescer e aplicar minhas habilidades técnicas com propósito cristão.
-    </p>
-  </section>
+  <!-- Input card -->
+  <main>
+    <section class="input-card" aria-label="Entrada do dia">
+      <textarea id="dayInput" placeholder="Conte como será o seu dia de hoje... (ex: acordo às 7h, trabalho das 9h às 17h, almoço 12h, estudo às 20h)"></textarea>
 
-  <section>
-    <h2>Formação</h2>
-    <p class="conteudo">
-      🎓 <strong>Ciências da Computação</strong> – Universidade Anhembi Morumbi (2023 – 2027)
-    </p>
-  </section>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn primary" id="generateBtn" title="Gerar planejamento do dia">✨ Gerar meu dia com Deus</button>
+        <button class="btn" id="clearBtn" title="Limpar">Limpar</button>
+        <div style="flex:1"></div>
+        <button class="btn" id="saveBtn" title="Salvar localmente">Salvar</button>
+      </div>
+    </section>
 
-  <section>
-    <h2>Experiência</h2>
-    <p class="conteudo">
-      💬 <strong><a href="https://www.staridiomas.com/" target="_blank">Star Idiomas</a></strong> – Desenvolvimento de site institucional e chatbot interativo,
-      com integração ao WhatsApp e automações de cadastro voltadas à experiência do aluno e gestão da escola.
-      (<a href="https://www.staridiomas.com/" target="_blank">Ver projeto</a>)
-    </p>
-    <p class="conteudo">
-      🎮 <strong><a href="https://puzzlegame-aafacx.manus.space/" target="_blank">Projeto Puzzles Bíblicos</a></strong> – Desenvolvimento Fullstack de jogo cristão com mais de 10 fases interativas,
-      promovendo aprendizado bíblico através de desafios e design envolvente.
-      (<a href="https://puzzlegame-aafacx.manus.space/" target="_blank">Ver jogo</a>)
-    </p>
-  </section>
+    <!-- Results -->
+    <section>
+      <h2 class="section-title">Resumo do seu dia</h2>
+      <div class="card" id="summaryCard">Nenhuma entrada ainda — escreva seu dia e toque em "Gerar".</div>
 
-  <section>
-    <h2>Habilidades Técnicas</h2>
-    <p class="conteudo">
-      💡 Desenvolvimento de interfaces modernas e responsivas com HTML, CSS e JavaScript.<br>
-      ⚙️ Criação de sistemas web e chatbots personalizados integrados a WhatsApp, Telegram e bancos de dados.<br>
-      🧩 Implementação de jogos interativos e aplicativos educativos com foco em experiência do usuário.<br>
-      🔗 Integração com APIs, automação de processos e gerenciamento de dados em nuvem.<br>
-      🧠 Aplicação de fundamentos de Inteligência Artificial e automação com Python e Node.js.<br>
-      📱 Desenvolvimento de aplicativos iOS com SwiftUI e integração a serviços locais (Calendário, Notificações).<br>
-      🔒 Boas práticas de segurança e ética digital, com formação em Ethical Hacking.
-    </p>
-  </section>
+      <h2 class="section-title">Melhores horários para orar</h2>
+      <div class="card" id="prayCard"><span class="muted">Sem sugestões — gere seu dia.</span></div>
 
-  <section>
-    <h2>Cursos e Certificações</h2>
-    <p class="conteudo">
-      - Ethical Hacker – Cisco Networking Academy<br>
-      - Inteligência Artificial – IBM SkillBuild<br>
-      - Desenvolvimento de Aplicativos iOS – Apple Developer Academy
-    </p>
-  </section>
+      <h2 class="section-title">Sugestão de leitura bíblica</h2>
+      <div class="card" id="bibleCard"><span class="muted">Sem sugestões — gere seu dia.</span></div>
 
-  <section>
-    <h2>Idiomas</h2>
-    <p class="conteudo">
-      🇧🇷 Português – Nativo<br>
-      🇬🇧 Inglês – Avançado (conversação, leitura e escrita)<br>
-      🇪🇸 Espanhol – Intermediário
-    </p>
-  </section>
+      <h2 class="section-title">Plano do dia (cronograma)</h2>
+      <div class="card" id="planCard"><span class="muted">Sem plano — gere seu dia.</span></div>
+    </section>
+  </main>
 
   <footer>
-    <p>“E tudo quanto fizerdes, fazei-o de todo o coração, como ao Senhor.” – Colossenses 3:23 ✝️</p>
+    <div class="save-muted">Projeto local — sem backend • Mobile first</div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="btn" id="shareBtn" title="Copiar plano">Copiar plano</button>
+      <button class="btn" id="resetBtn" title="Resetar plano salvo">Resetar</button>
+    </div>
   </footer>
 
-</body>
+  <script>
+    /************************************************************************
+     * Minimal offline planner logic (100% frontend)
+     *
+     * O que faz:
+     * - Tenta extrair horários do texto (ex: "7h", "07:30", "às 7", "às 7h30")
+     * - Gera 3 sugestões de oração (manhã, almoço/intervalo, noite) baseadas na rotina
+     * - Gera sugestão de leitura bíblica e trecho breve (devocional curto)
+     * - Monta um plano cronológico simples
+     * - Salva/recupera do localStorage
+     ************************************************************************/
 
+    // elementos
+    const dayInput = document.getElementById('dayInput');
+    const generateBtn = document.getElementById('generateBtn');
+    const summaryCard = document.getElementById('summaryCard');
+    const prayCard = document.getElementById('prayCard');
+    const bibleCard = document.getElementById('bibleCard');
+    const planCard = document.getElementById('planCard');
+    const saveBtn = document.getElementById('saveBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    const STORAGE_KEY = 'diaComDeus.plan';
+
+    // exemplos de leituras + devocionais curtos
+    const readings = [
+      { ref: "Salmo 23", text: "O Senhor é o meu pastor; nada me faltará. Medite na presença e provisão de Deus."},
+      { ref: "Mateus 6:33", text: "Buscai primeiro o Reino de Deus e a sua justiça. Priorize tempo com Ele."},
+      { ref: "Filipenses 4:6-7", text: "Não andeis ansiosos; apresentem tudo em oração. A paz de Deus guardará o seu coração."},
+      { ref: "Salmo 91", text: "Confie na proteção de Deus. Uma leitura para renovar confiança e paz."},
+      { ref: "Romanos 12:12", text: "Alegrem-se na esperança, sejam pacientes na tribulação e perseverem na oração."}
+    ];
+
+    // util: extrair horários do texto (retorna array de objetos {timeStr, minutes})
+    function extractTimes(text){
+      const times = [];
+      if(!text) return times;
+      // padrões: 7h, 7h30, 07:30, 7:00, às 7, as 7h
+      const re = /(?:às|as)?\s*([0-2]?\d)(?:h|:)?([0-5]?\d)?/gi;
+      let match;
+      while((match = re.exec(text)) !== null){
+        let hour = parseInt(match[1],10);
+        let min = match[2] ? parseInt(match[2],10) : 0;
+        // sanitize
+        if(hour >= 24) continue;
+        times.push({
+          timeStr: pad(hour) + ':' + pad(min),
+          minutes: hour*60 + min
+        });
+      }
+      // também tentar padrões como "manhã", "noite", "tarde"
+      // retornar unique by minutes
+      const uniq = [];
+      const seen = new Set();
+      times.forEach(t=>{
+        if(!seen.has(t.minutes)){
+          seen.add(t.minutes);
+          uniq.push(t);
+        }
+      });
+      // sort
+      uniq.sort((a,b)=>a.minutes-b.minutes);
+      return uniq;
+    }
+
+    function pad(n){ return n.toString().padStart(2,'0'); }
+
+    // escolhe os melhores horários para orar considerando rotina
+    function suggestPrayerTimes(parsedTimes){
+      // heurística simples:
+      // - se detectou horário de acordar (< 10:00), usar esse + depois um meio-dia + um à noite
+      const suggestions = [];
+      const now = new Date();
+      // default guess
+      const morning = parsedTimes.length ? parsedTimes[0].minutes : 7*60; // 7:00
+      const noon = 12*60;
+      const night = 21*60;
+
+      // se o morning muito tarde (>10h), ajustar
+      let m = morning;
+      if(m > 10*60) m = 9*60;
+
+      suggestions.push({label: 'Manhã (reflexão curta)', time: minutesToTime(m), reason: 'Momento introdutório para começar o dia em oração.'});
+      // escolher um horário no meio do expediente se existir um range
+      suggestions.push({label: 'Intervalo/Almoço', time: minutesToTime(noon), reason: 'Pausa ideal para recarregar e orar.'});
+      // noite
+      suggestions.push({label: 'Noite (acalma e agradece)', time: minutesToTime(night), reason: 'Momento de agradecer e encerrar o dia com Deus.'});
+
+      // se houver um horário de estudo/atividades que conflite, tentar evitar (simples heurística)
+      return suggestions;
+    }
+
+    function minutesToTime(mins){
+      const h = Math.floor(mins/60);
+      const m = mins % 60;
+      return pad(h) + ':' + pad(m);
+    }
+
+    // gerar plano cronológico simples
+    function generatePlan(parsedTimes, text){
+      // heurística simples: extrair eventos simples por frases (separadas por vírgula ou 'e')
+      const parts = text.split(/[,.;]\s*| e /i).map(s=>s.trim()).filter(Boolean);
+      const plan = [];
+      // se tempos extraídos, tentar associar
+      let times = parsedTimes.slice();
+      // fallback times if none: 07:00, 09:00, 12:00, 18:00, 20:00
+      const fallbackTimes = [7*60,9*60,12*60,18*60,20*60];
+      let fallbackIdx = 0;
+
+      parts.forEach((p, idx)=>{
+        let assignedTime = null;
+        // if phrase contains a time, pick the earliest remaining
+        // else use fallback
+        if(times.length){
+          assignedTime = times.shift().timeStr;
+        } else {
+          assignedTime = minutesToTime(fallbackTimes[Math.min(fallbackIdx, fallbackTimes.length-1)]);
+          fallbackIdx++;
+        }
+        plan.push({time: assignedTime, text: capitalize(p)});
+      });
+
+      // ensure there is a prayer / reading inserted
+      plan.push({time: minutesToTime(12*60), text: 'Intervalo para oração — 5 a 10 minutos (pausa do dia)'});
+      plan.push({time: minutesToTime(21*60), text: 'Leitura bíblica curta — 10 minutos'});
+
+      // sort by time
+      plan.sort((a,b)=>timeToMinutes(a.time) - timeToMinutes(b.time));
+      return plan;
+    }
+
+    function timeToMinutes(t){
+      const [h,m] = t.split(':').map(Number);
+      return h*60 + (m||0);
+    }
+
+    function capitalize(s){
+      if(!s) return s;
+      return s[0].toUpperCase() + s.slice(1);
+    }
+
+    // escolha aleatória de leitura
+    function pickReading(){
+      return readings[Math.floor(Math.random()*readings.length)];
+    }
+
+    // montar saída visual
+    function renderAll(text){
+      const parsed = extractTimes(text);
+      // resumo
+      summaryCard.innerHTML = text ? escapeHtml(text) : '<span class="muted">Nenhuma entrada ainda — escreva seu dia e toque em "Gerar".</span>';
+
+      // orações
+      const prayers = suggestPrayerTimes(parsed);
+      prayCard.innerHTML = '';
+      const prayList = document.createElement('div');
+      prayList.className = 'list';
+      prayers.forEach(p => {
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.innerHTML = `
+          <div class="icon">🕊</div>
+          <div style="flex:1">
+            <div style="font-weight:600">${p.label} • ${p.time}</div>
+            <div class="muted" style="margin-top:6px;">${escapeHtml(p.reason)}</div>
+          </div>
+        `;
+        prayList.appendChild(row);
+      });
+      prayCard.appendChild(prayList);
+
+      // leitura bíblica
+      const reading = pickReading();
+      bibleCard.innerHTML = `
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <div class="icon">📖</div>
+          <div style="flex:1">
+            <div style="font-weight:600">${reading.ref}</div>
+            <div class="muted" style="margin-top:6px;">${escapeHtml(reading.text)}</div>
+          </div>
+        </div>
+      `;
+
+      // plano
+      const plan = generatePlan(parsed, text || '');
+      planCard.innerHTML = '';
+      const planList = document.createElement('div');
+      planList.className = 'list';
+      plan.forEach(item=>{
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.innerHTML = `
+          <div style="width:68px;font-weight:700">${item.time}</div>
+          <div style="flex:1">${escapeHtml(item.text)}</div>
+        `;
+        planList.appendChild(row);
+      });
+      planCard.appendChild(planList);
+
+      // retorna objeto para possível uso
+      return {parsed, prayers, reading, plan};
+    }
+
+    // helper: escape HTML to prevent injection from user input
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"']/g, function(m){
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]);
+      });
+    }
+
+    // salvar no localStorage
+    function savePlanToStorage(obj){
+      try{
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+        flashMessage('Plano salvo localmente.');
+      }catch(e){
+        flashMessage('Erro ao salvar.');
+      }
+    }
+    // carregar do storage
+    function loadPlanFromStorage(){
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return null;
+      try{
+        return JSON.parse(raw);
+      }catch(e){
+        return null;
+      }
+    }
+    // limpar storage
+    function resetStorage(){
+      localStorage.removeItem(STORAGE_KEY);
+      flashMessage('Plano resetado.');
+    }
+
+    function flashMessage(msg){
+      // mensagem rápida visual (simples)
+      const el = document.createElement('div');
+      el.textContent = msg;
+      el.style.position='fixed';
+      el.style.left='50%';
+      el.style.transform='translateX(-50%)';
+      el.style.bottom='26px';
+      el.style.background='rgba(0,0,0,0.7)';
+      el.style.color='white';
+      el.style.padding='10px 14px';
+      el.style.borderRadius='10px';
+      el.style.zIndex=9999;
+      document.body.appendChild(el);
+      setTimeout(()=>el.style.opacity='0',1400);
+      setTimeout(()=>el.remove(),2000);
+    }
+
+    // compartilhar (copiar plano)
+    function copyPlanText(obj){
+      // montar texto simples
+      const lines = [];
+      lines.push('Plano — Dia com Deus');
+      lines.push('Resumo:');
+      lines.push((obj.summary || '').trim());
+      lines.push('');
+      lines.push('Horários sugeridos para orar:');
+      (obj.prayers || []).forEach(p=>lines.push(` - ${p.label} ${p.time} — ${p.reason}`));
+      lines.push('');
+      lines.push('Leitura sugerida:');
+      if(obj.reading) lines.push(` - ${obj.reading.ref} — ${obj.reading.text}`);
+      lines.push('');
+      lines.push('Cronograma:');
+      (obj.plan || []).forEach(it=>lines.push(` ${it.time} — ${it.text}`));
+      const text = lines.join('\n');
+      navigator.clipboard?.writeText(text).then(()=>flashMessage('Plano copiado para a área de transferência.')).catch(()=>flashMessage('Falha ao copiar.'));
+    }
+
+    // evento generate
+    generateBtn.addEventListener('click', ()=>{
+      const text = dayInput.value.trim();
+      if(!text){
+        flashMessage('Escreva algo sobre seu dia primeiro.');
+        return;
+      }
+      const result = renderAll(text);
+      // montar objeto para salvar
+      const payload = {
+        createdAt: new Date().toISOString(),
+        summary: text,
+        parsed: result.parsed,
+        prayers: result.prayers,
+        reading: result.reading,
+        plan: result.plan
+      };
+      // auto salvar
+      savePlanToStorage(payload);
+    });
+
+    // save button
+    saveBtn.addEventListener('click', ()=>{
+      const text = dayInput.value.trim();
+      const existing = renderAll(text);
+      const payload = {
+        createdAt: new Date().toISOString(),
+        summary: text,
+        parsed: existing.parsed,
+        prayers: existing.prayers,
+        reading: existing.reading,
+        plan: existing.plan
+      };
+      savePlanToStorage(payload);
+    });
+
+    // share
+    shareBtn.addEventListener('click', ()=>{
+      const raw = loadPlanFromStorage();
+      if(!raw){
+        flashMessage('Nenhum plano salvo para copiar.');
+        return;
+      }
+      copyPlanText(raw);
+    });
+
+    // clear input
+    clearBtn.addEventListener('click', ()=>{
+      dayInput.value = '';
+      summaryCard.innerHTML = 'Nenhuma entrada ainda — escreva seu dia e toque em "Gerar".';
+      prayCard.innerHTML = '<span class="muted">Sem sugestões — gere seu dia.</span>';
+      bibleCard.innerHTML = '<span class="muted">Sem sugestões — gere seu dia.</span>';
+      planCard.innerHTML = '<span class="muted">Sem plano — gere seu dia.</span>';
+    });
+
+    // reset
+    resetBtn.addEventListener('click', ()=>{
+      resetStorage();
+      clearBtn.click();
+    });
+
+    // on load, try to restore
+    window.addEventListener('load', ()=>{
+      const raw = loadPlanFromStorage();
+      if(raw){
+        // restore the summary into textarea
+        dayInput.value = raw.summary || '';
+        renderAll(raw.summary || '');
+        flashMessage('Plano restaurado localmente.');
+      }
+    });
+
+    // small utility to allow pressing CMD/CTRL+Enter to generate
+    dayInput.addEventListener('keydown', (e)=>{
+      if((e.key === 'Enter' && (e.metaKey || e.ctrlKey))){
+        e.preventDefault();
+        generateBtn.click();
+      }
+    });
+
+  </script>
+</body>
 </html>
